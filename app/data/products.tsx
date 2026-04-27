@@ -86,7 +86,7 @@ export const products = [
   {
     id: "7",
     name: "Vibratoire",
-    imageSrc: "/img/massage2.jpeg",
+    imageSrc: "/img/background.png",
     imageAlt: "Test2",
     cardType: "Massage",
     cardDescription:

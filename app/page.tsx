@@ -14,6 +14,7 @@ import { packs } from "./data/packs";
 import { category } from "./data/category";
 import Footer from "./components/Footer/Footer";
 import { useState } from "react";
+import { notice } from "./data/notice";
 
 export default function Home() {
   const [limit, setLimit] = useState(6);
@@ -95,9 +96,15 @@ export default function Home() {
           </h2>
           <div className="flex flex-wrap gap-5 justify-center relative">
             <div className="absolute -top-100" id="notice" />
-            <Notice />
-            <Notice />
-            <Notice />
+            {notice.map((n) => (
+              <Notice
+                key={n.id}
+                username={n.username}
+                datePost={n.datePost}
+                comment={n.comment}
+                link={n.link}
+              />
+            ))}
           </div>
           <ButtonPrimary isActive={true}>Donner un avis</ButtonPrimary>
         </section>
