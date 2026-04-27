@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/HeroHeader/HeroHeader";
 import About from "./components/About/About";
@@ -8,82 +9,102 @@ import Newsletter from "./components/Newsletter/Newsletter";
 import ProductPack from "./components/ProductPackage/ProductPackage";
 import Faq from "./components/Faq/FAQ";
 import ProductCategory from "./components/ProductCategory/ProductCategory";
+import { products } from "./data/products";
+import { packs } from "./data/packs";
+import { category } from "./data/category";
+import Footer from "./components/Footer/Footer";
+import { useState } from "react";
 
 export default function Home() {
+  const [limit, setLimit] = useState(6);
+  const [isActive, setActive] = useState(true);
+
+  function handleClick() {
+    setLimit(999);
+    setActive(!isActive);
+  }
   return (
-    <div className="h-full w-full flex flex-col gap-5">
-      <Navbar />
-      <Hero />
-      <main className="h-max w-full px-40 flex flex-col gap-10">
-        <section className="h-max w-full items-center p-5 mx-20 bg-(--alt-background) flex flex-col gap-24 self-center rounded-md">
+    <div id="home" className="h-full w-full flex flex-col gap-10">
+      <header className="flex gap-2 flex-col">
+        <Navbar />
+        <Hero />
+      </header>
+      <main className="h-max w-full px-2 lg:px-40 xl:px-80 flex flex-col gap-10">
+        <section className="h-max w-full items-center p-5 mx-20 bg-(--alt-background) shadow-lg flex flex-col gap-24 self-center rounded-md">
           <About />
-          <h2 className="text-3xl font-bold uppercase">Categories Massage</h2>
-          <div className="w-full h-max grid grid-cols-2 grid-rows-2 gap-4">
-            <ProductCategory />
-            <ProductCategory />
-            <ProductCategory />
-            <ProductCategory />
+          <h2 className="text-2xl md:text-3xl text-nowrap font-bold uppercase">
+            Catégories des massages
+          </h2>
+          <div className="w-full h-max flex justify-center gap-10 flex-wrap 2xl:flex-nowrap">
+            {category.map((c) => (
+              <ProductCategory
+                key={c.id}
+                imageSrc={c.imageSrc}
+                imageAlt={c.imageAlt}
+                categoryName={c.categoryName}
+              />
+            ))}
           </div>
-          <h2 className="text-3xl font-bold uppercase">Massage Populaire</h2>
-          <div className="flex gap-10">
-            <ProductCard
-              ImageSrc="/img/massage1.png"
-              ImageAlt="Alt"
-              CardType="Massage"
-              Title="Title"
-              Description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla eum quae impedit, aspernatur, mollitia quaerat odit, adipisci neque enim reiciendis itaque distinctio inventore necessitatibus laudantium velit officia ipsa eius nesciunt!"
-              SeeMoreLink="/"
-              Price={20}
-            />
-            <ProductCard
-              ImageSrc="/img/massage2.jpeg"
-              ImageAlt="Alt"
-              CardType="Massage"
-              Title="Title"
-              Description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla eum quae impedit, aspernatur, mollitia quaerat odit, adipisci neque enim reiciendis itaque distinctio inventore necessitatibus laudantium velit officia ipsa eius nesciunt!"
-              SeeMoreLink="/"
-              Price={20}
-            />
-            <ProductCard
-              ImageSrc="/img/hero.jpg"
-              ImageAlt="Alt"
-              CardType="Massage"
-              Title="Title"
-              Description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla eum quae impedit, aspernatur, mollitia quaerat odit, adipisci neque enim reiciendis itaque distinctio inventore necessitatibus laudantium velit officia ipsa eius nesciunt!"
-              SeeMoreLink="/"
-              Price={20}
-            />
+          <h2 className="text-2xl md:text-3xl font-bold text-nowrap uppercase">
+            Les massages proposé
+          </h2>
+          <div className="flex flex-wrap justify-center gap-10 relative">
+            <div className="absolute -top-50" id="services" />
+            {products.slice(0, limit ? limit : products.length).map((p) => (
+              <ProductCard
+                key={p.id}
+                ImageSrc={p.imageSrc}
+                ImageAlt={p.imageAlt}
+                CardType={p.cardType}
+                Title={p.name}
+                Description={p.cardDescription}
+                Price={p.cardPrice}
+                Warning={p.Warning}
+                Benefits={p.Benefits}
+              />
+            ))}
           </div>
-          <ButtonPrimary href="/">Voir plus</ButtonPrimary>
+          <ButtonPrimary
+            setActive={setActive}
+            isActive={isActive}
+            onClick={() => handleClick()}
+          >
+            Voir plus
+          </ButtonPrimary>
+          <h2 className="uppercase font-bold text-2xl md:text-3xl text-nowrap">
+            Les packs de massage
+          </h2>
+          <div className="flex flex-wrap gap-3 w-full justify-center relative">
+            <div className="absolute -top-60" id="packs" />
+            {packs.map((p) => (
+              <ProductPack
+                key={p.id}
+                imageSrc={p.imageSrc}
+                imageAlt={p.imageAlt}
+                packType={p.packType}
+                packName={p.packName}
+                packDescription={p.packDescription}
+                packPrice={p.packPrice}
+                packWarning={p.packWarning}
+              />
+            ))}
+          </div>
 
-          <h2 className="uppercase font-bold text-3xl">Pack massage</h2>
-          <div className="flex flex-col gap-3">
-            <ProductPack />
-            <ProductPack />
-            <ProductPack />
-          </div>
-
-          <h2 className="uppercase font-bold text-3xl">Avis clients</h2>
-          <div className="flex gap-5 justify-center">
+          <h2 className="uppercase font-bold text-2xl md:text-3xl text-nowrap">
+            Nos avis clients
+          </h2>
+          <div className="flex flex-wrap gap-5 justify-center relative">
+            <div className="absolute -top-100" id="notice" />
             <Notice />
             <Notice />
             <Notice />
           </div>
-          <ButtonPrimary href="/">Donner un avis</ButtonPrimary>
+          <ButtonPrimary isActive={true}>Donner un avis</ButtonPrimary>
         </section>
-        <section className="h-max w-full flex flex-col gap-10">
-          <Faq />
-          <Newsletter />
-        </section>
+        <Faq />
+        <Newsletter />
       </main>
-      <footer className="w-full px-40 flex flex-col h-max">
-        <section className="h-max w-full p-5 bg-(--alt-background) mx-20 flex gap-24 self-center rounded-md">
-          <article></article>
-          <article></article>
-          <article></article>
-        </section>
-        <p>Copy</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

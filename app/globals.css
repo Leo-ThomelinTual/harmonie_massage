@@ -22,13 +22,13 @@
     --warning: #ffa500;
     --success: #008000;
 }
-
+/*
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #0a0a0a;
         --foreground: #ededed;
     }
-}
+}*/
 
 @theme inline {
     --color-background: var(--background);
@@ -37,8 +37,12 @@
     --font-mono: var(--font-geist-mono);
 }
 
+html,
 body {
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
